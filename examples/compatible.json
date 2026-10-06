@@ -1,0 +1,97 @@
+{
+  "old": {
+    "initial_state": "closed",
+    "registers": {"uses": 0},
+    "transitions": [
+      {
+        "id": "open",
+        "from": "closed",
+        "to": "open",
+        "request": "open",
+        "response": {"status": 200, "label": "opened"}
+      },
+      {
+        "id": "use",
+        "from": "open",
+        "to": "open",
+        "request": "use",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": "<", "const": 3},
+          {"terms": [{"param": true}], "op": "<=", "const": 50}
+        ],
+        "update": {"uses": {"add": 1}},
+        "response": {"status": 200, "label": "used"}
+      },
+      {
+        "id": "use-limit",
+        "from": "open",
+        "to": "open",
+        "request": "use",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": ">=", "const": 3}
+        ],
+        "response": {"status": 429, "label": "exhausted"}
+      },
+      {
+        "id": "reset",
+        "from": "open",
+        "to": "open",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": ">=", "const": 3}
+        ],
+        "update": {"uses": {"set": 0}}
+      }
+    ]
+  },
+  "new": {
+    "initial_state": "closed",
+    "registers": {"uses": 0},
+    "transitions": [
+      {
+        "id": "open",
+        "from": "closed",
+        "to": "open",
+        "request": "open",
+        "response": {"status": 200, "label": "opened"}
+      },
+      {
+        "id": "use",
+        "from": "open",
+        "to": "open",
+        "request": "use",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": "<", "const": 3},
+          {"terms": [{"param": true}], "op": "<=", "const": 50}
+        ],
+        "update": {"uses": {"add": 1}},
+        "response": {"status": 200, "label": "used"}
+      },
+      {
+        "id": "use-limit",
+        "from": "open",
+        "to": "open",
+        "request": "use",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": ">=", "const": 3}
+        ],
+        "response": {"status": 429, "label": "exhausted"}
+      },
+      {
+        "id": "reset",
+        "from": "open",
+        "to": "open",
+        "guard": [
+          {"terms": [{"reg": "uses"}], "op": ">=", "const": 3}
+        ],
+        "update": {"uses": {"set": 0}}
+      },
+      {
+        "id": "stats",
+        "from": "open",
+        "to": "open",
+        "request": "stats",
+        "response": {"status": 200, "label": "stats"}
+      }
+    ]
+  }
+}

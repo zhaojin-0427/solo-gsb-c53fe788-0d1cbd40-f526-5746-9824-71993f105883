@@ -1,0 +1,104 @@
+{
+  "old": {
+    "initial_state": "idle",
+    "registers": {"balance": 2},
+    "transitions": [
+      {
+        "id": "charge-ok",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": ">", "const": 0},
+          {"terms": [{"param": true}], "op": "<=", "const": 100}
+        ],
+        "update": {"balance": {"sub": 1}},
+        "response": {"status": 200, "label": "charged"}
+      },
+      {
+        "id": "charge-big",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": ">", "const": 0},
+          {"terms": [{"param": true}], "op": ">", "const": 100}
+        ],
+        "update": {"balance": {"sub": 1}},
+        "response": {"status": 402, "label": "too-expensive"}
+      },
+      {
+        "id": "charge-empty",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": "==", "const": 0}
+        ],
+        "response": {"status": 402, "label": "empty"}
+      },
+      {
+        "id": "refund",
+        "from": "idle",
+        "to": "idle",
+        "request": "refund",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": "<", "const": 5}
+        ],
+        "update": {"balance": {"add": 1}},
+        "response": {"status": 200, "label": "refunded"}
+      }
+    ]
+  },
+  "new": {
+    "initial_state": "idle",
+    "registers": {"balance": 2},
+    "transitions": [
+      {
+        "id": "charge-ok",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": ">", "const": 0},
+          {"terms": [{"param": true}], "op": "<=", "const": 99}
+        ],
+        "update": {"balance": {"sub": 1}},
+        "response": {"status": 200, "label": "charged"}
+      },
+      {
+        "id": "charge-big",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": ">", "const": 0},
+          {"terms": [{"param": true}], "op": ">", "const": 99}
+        ],
+        "update": {"balance": {"sub": 1}},
+        "response": {"status": 402, "label": "too-expensive"}
+      },
+      {
+        "id": "charge-empty",
+        "from": "idle",
+        "to": "idle",
+        "request": "charge",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": "==", "const": 0}
+        ],
+        "response": {"status": 402, "label": "empty"}
+      },
+      {
+        "id": "refund",
+        "from": "idle",
+        "to": "idle",
+        "request": "refund",
+        "guard": [
+          {"terms": [{"reg": "balance"}], "op": "<", "const": 5}
+        ],
+        "update": {"balance": {"add": 1}},
+        "response": {"status": 200, "label": "refunded"}
+      }
+    ]
+  }
+}

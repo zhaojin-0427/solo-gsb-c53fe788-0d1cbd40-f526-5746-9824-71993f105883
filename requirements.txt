@@ -1,0 +1,4 @@
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+pydantic==2.13.5
+z3-solver==5.1.0.0
